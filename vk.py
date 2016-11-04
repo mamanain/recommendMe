@@ -47,14 +47,15 @@ def get_friends(user_id):
 def get_users_info(users_list):
     result = {}
     batch_size = 500
-    fields = ",".join(["sex", "bdate", "city", "country", "photo_50", "photo_100", "photo_200_orig",
-            "photo_200", "photo_400_orig", "photo_max", "photo_max_orig", "photo_id", "online",
-            "online_mobile", "domain", "has_mobile", "contacts", "connections", "site", "education",
-            "universities", "schools", "can_post", "can_see_all_posts", "can_see_audio",
-            "can_write_private_message", "status", "last_seen", "relation",
-            "relatives", "counters", "screen_name", "maiden_name", "timezone", "occupation,activities",
-            "interests", "music", "movies", "tv", "books", "games", "about", "quotes", "personal",
-            "friends_status"])
+    #fields = ",".join(["sex", "bdate", "city", "country", "photo_50", "photo_100", "photo_200_orig",
+    #        "photo_200", "photo_400_orig", "photo_max", "photo_max_orig", "photo_id", "online",
+    #        "online_mobile", "domain", "has_mobile", "contacts", "connections", "site", "education",
+    #        "universities", "schools", "can_post", "can_see_all_posts", "can_see_audio",
+    #        "can_write_private_message", "status", "last_seen", "relation",
+    #        "relatives", "counters", "screen_name", "maiden_name", "timezone", "occupation,activities",
+    #        "interests", "music", "movies", "tv", "books", "games", "about", "quotes", "personal",
+    #        "friends_status"])
+    fields = ",".join(["sex", "bdate", "movies", "country"])
     start = 0
     while start < len(users_list):
         request_ids = ",".join([str(id) for id in users_list[start:start+batch_size]])
@@ -64,6 +65,13 @@ def get_users_info(users_list):
         start += batch_size
     return result
 
+def get_groups(user_id):
+    res = base_request("groups.get", [('user_id', str(user_id))])
+    if res is None:
+        return []
+    else:
+        return res
+    
 def get_social_ball(user_id, ball_size):
     queue = [(user_id, 0)]
     graph = {}
