@@ -55,7 +55,7 @@ def get_users_info(users_list):
     #        "relatives", "counters", "screen_name", "maiden_name", "timezone", "occupation,activities",
     #        "interests", "music", "movies", "tv", "books", "games", "about", "quotes", "personal",
     #        "friends_status"])
-    fields = ",".join(["sex", "bdate", "movies", "country"])
+    fields = ",".join(["movies"])
     start = 0
     while start < len(users_list):
         request_ids = ",".join([str(id) for id in users_list[start:start+batch_size]])
@@ -66,7 +66,7 @@ def get_users_info(users_list):
     return result
 
 def get_groups(user_id):
-    res = base_request("groups.get", [('user_id', str(user_id))])
+    res = base_request("users.getSubscriptions", [('user_id', str(user_id))])
     if res is None:
         return []
     else:
