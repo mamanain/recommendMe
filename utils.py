@@ -108,12 +108,10 @@ def get_data(_id, n, database, user_collection, api_key, min_num_of_movies=3):
                     break
 
 
-def download_avatars(database):
+def download_avatars(database, name="photo_100"):
     ids = list(map(lambda x: x['_id'], database.get_all("User_Info")))
-    info = vk.get_users_info(ids, ['photo_100'])
-    downloaded = np.array(list(map(lambda x: x.split(".")[0], os.listdir("Images/"))))
-
-    new = [x for x in info.values() if x not in downloaded]
-
-    for user in new:
-        urllib.request.urlretrieve(user['photo_100'], 'Images/{0}.png'.format(user['uid']))
+    info = vk.get_users_info(ids, [name])
+    
+    for user in info.values():
+        if name in user.keys():
+            urllib.request.urlretrieve(user[name], 'Images/{0}.png'.format(user['uid']))
